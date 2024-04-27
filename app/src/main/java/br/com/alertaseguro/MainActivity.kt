@@ -10,7 +10,6 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +28,9 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -63,7 +64,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.alertaseguro.ui.theme.AlertaSeguroTheme
+import br.com.alertaseguro.ui.theme.green
 import br.com.alertaseguro.ui.theme.red
+import br.com.alertaseguro.ui.theme.yellow
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -184,13 +187,12 @@ fun HomeScreen() {
                     modifier = Modifier
                         .size((Resources.getSystem().displayMetrics.widthPixels / 4).dp)
                         .scale(if (inAlert) animatedScale else 1f)
-                        .background(red.copy(alpha = 0.3f), CircleShape)
+                        .background((if (inAlert) red else green).copy(alpha = 0.3f), CircleShape)
                 )
                 Surface(
                     shape = CircleShape,
-                    color = red,
+                    color = if (inAlert) red else MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size((Resources.getSystem().displayMetrics.widthPixels / 4).dp),
-                    border = BorderStroke(5.dp, MaterialTheme.colorScheme.errorContainer),
                     onClick = {
                         inAlert = !inAlert
                     }
@@ -216,8 +218,13 @@ fun HomeScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                OutlinedCard(modifier = Modifier.weight(1f),
-                    onClick = {}
+                ElevatedCard(
+                    modifier = Modifier.weight(1f),
+                    onClick = {},
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = yellow,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
+                    )
                 ) {
                     Column(
                         modifier = Modifier
@@ -232,8 +239,7 @@ fun HomeScreen() {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.ArrowForward,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.error
+                                contentDescription = null
                             )
                             Icon(
                                 imageVector = Icons.Outlined.Person,
@@ -242,7 +248,7 @@ fun HomeScreen() {
                         }
                     }
                 }
-                OutlinedCard(
+                ElevatedCard(
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 16.dp),
@@ -253,7 +259,7 @@ fun HomeScreen() {
                             .fillMaxWidth()
                             .padding(20.dp), verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(text = "Acho que estou Sendo Seguido")
+                        Text(text = "Compartilhar Localização")
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
