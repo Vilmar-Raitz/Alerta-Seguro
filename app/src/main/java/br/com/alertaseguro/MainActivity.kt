@@ -166,6 +166,7 @@ fun HomeScreen() {
 
                 LaunchedEffect(inAlert) {
                     if (inAlert) {
+
                         while (inAlert) {
                             scale = 2f
                             delay(1000)
@@ -283,14 +284,7 @@ fun HomeScreen() {
 }
 
 
-@Preview(showSystemUi = true)
-@Composable
-private fun HomeScreenPreview() {
-    AlertaSeguroTheme {
-        HomeScreen()
-    }
 
-}
 
 enum class Navigation(val icon: ImageVector) {
     Inicio(Icons.Default.Home),
